@@ -5,27 +5,27 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "member")
-public class Member {
+@Table(name = "workout")
+public class Workout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "workout_plan_id", nullable = false)
+    private WorkoutPlan workoutPlan;
+
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "public_code", unique = true, nullable = false)
-    private String publicCode;
-
-    @Builder.Default
     @Column(nullable = false)
-    private Boolean active = true;
+    private Integer position;
 
 }

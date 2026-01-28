@@ -18,10 +18,10 @@ public class Professional {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Builder.Default

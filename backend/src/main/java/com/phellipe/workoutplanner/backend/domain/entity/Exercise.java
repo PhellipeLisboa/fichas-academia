@@ -5,13 +5,13 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "member")
-public class Member {
+@Table(name = "exercise")
+public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +21,14 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "public_code", unique = true, nullable = false)
-    private String publicCode;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "video_url", columnDefinition = "TEXT")
+    private String videoUrl;
+
+    @Column(name = "thumbnail_url", columnDefinition = "TEXT")
+    private String thumbnailUrl;
 
     @Builder.Default
     @Column(nullable = false)
