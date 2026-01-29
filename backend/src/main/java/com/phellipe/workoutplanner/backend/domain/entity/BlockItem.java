@@ -10,8 +10,8 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "workout_item")
-public class WorkoutItem {
+@Table(name = "block_item")
+public class BlockItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,15 +19,15 @@ public class WorkoutItem {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "workout_id", nullable = false)
-    private Workout workout;
+    @JoinColumn(name = "workout_block_id", nullable = false)
+    private WorkoutBlock workoutBlock;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "machine_id")
+    @JoinColumn(name = "machine_id", nullable = false)
     private Machine machine;
 
     @Column(nullable = false)
@@ -38,5 +38,6 @@ public class WorkoutItem {
 
     @Column(nullable = false)
     private Integer position;
+
 
 }

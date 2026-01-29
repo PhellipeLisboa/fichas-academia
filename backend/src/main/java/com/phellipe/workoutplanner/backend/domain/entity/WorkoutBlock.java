@@ -1,5 +1,6 @@
 package com.phellipe.workoutplanner.backend.domain.entity;
 
+import com.phellipe.workoutplanner.backend.domain.enumtype.ExecutionType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,8 +13,8 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "workout")
-public class Workout {
+@Table(name = "workout_block")
+public class WorkoutBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +22,16 @@ public class Workout {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "workout_plan_id", nullable = false)
-    private WorkoutPlan workoutPlan;
+    @JoinColumn(name = "workout_id", nullable = false)
+    private Workout workout;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workoutBlock", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("position ASC")
-    private List<WorkoutBlock> blocks;
+    private List<BlockItem> items;
 
-    @Column(nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "execution_type", nullable = false)
+    private ExecutionType executionType;
 
     @Column(nullable = false)
     private Integer position;
