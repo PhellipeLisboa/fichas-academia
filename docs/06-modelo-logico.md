@@ -72,8 +72,8 @@ Entidades principais:
 **Relacionamentos:**
 
 Aluno 1..N Ficha  
-Ficha 1..N Treino
-Treino 1..N BlocoTreino
-BlocoTreino 1..N ItemBloco
-ItemBloco N..1 Exercicio
-ItemBloco N..1 Maquina
+Ficha 1..N Treino  
+Treino 1..N BlocoTreino  
+BlocoTreino 1..N ItemBloco  
+ItemBloco N..1 Exercicio  
+ItemBloco N..1 Maquina  
