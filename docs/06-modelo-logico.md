@@ -33,9 +33,15 @@ Entidades principais:
 - nome (A, B, C)
 - ordem
 
-**ItemTreino**
+**BlocoTreino**
 - id
 - treino
+- tipoExecucao(SINGLE, PLUS, UNION)
+- ordem
+
+**ItemBloco**
+- id
+- bloco
 - exercicio
 - maquina
 - series
@@ -63,10 +69,11 @@ Entidades principais:
 - professor
 - observacao
 
-Relacionamentos:
+**Relacionamentos:**
 
 Aluno 1..N Ficha  
-Ficha 1..N Treino  
-Treino 1..N ItemTreino  
-ItemTreino N..1 Exercicio  
-ItemTreino N..1 Maquina  
+Ficha 1..N Treino
+Treino 1..N BlocoTreino
+BlocoTreino 1..N ItemBloco
+ItemBloco N..1 Exercicio
+ItemBloco N..1 Maquina

@@ -14,4 +14,4 @@ Substituir o processo manual de fichas em papel escritas a mão por um sistema d
 
 ## Status
 
-Em fase de planejamento e documentação.
+Em fase inicial de desenvolvimento.

@@ -42,9 +42,10 @@ Fluxo principal:
 2. Clica em "Criar ficha".
 3. Sistema cria ficha em estado RASCUNHO.
 4. Professor informa:
-   - datas,
-   - intervalo,
-   - observações.
+   - Datas.
+   - Intervalo.
+   - Intensidade.
+   - Observações.
 5. Professor salva.
 6. Sistema persiste ficha.
 
@@ -66,27 +67,40 @@ Fluxo principal:
 2. Clica em "Adicionar treino".
 3. Define nome (A, B, C, etc.).
 4. Sistema cria treino com ordem.
-5. Professor adiciona exercícios:
-   - seleciona exercício,
-   - seleciona máquina,
-   - informa séries e repetições.
-6. Sistema cria itens de treino.
-7. Professor ajusta ordem se necessário.
-8. Professor salva ficha.
+5. Professor adiciona blocos de exercícios:
+   5.1 Seleciona o tipo de execução do bloco:
+      - Simples
+      - Conjugado (+)
+      - Bi-set (U)
+   5.2 Sistema cria o bloco de treino.
+   5.3 Professor adiciona exercícios ao bloco:
+      - Seleciona exercício.
+      - Seleciona máquina.
+      - Informa séries e repetições.
+   5.4 Sistema cria os itens do bloco.
+6. Professor ajusta ordem de treinos, blocos e itens se necessário.
+7. Professor salva ficha.
 
 Pós-condições:
-- Treinos estruturados.
+- Treinos estruturados com blocos e exercícios.
+
+Exceções:
+- Bloco sem exercícios -> Sistema impede de salvar.
+- Dados inválidos -> Sistema impede de salvar.
 
 ## Fluxo 4 — Finalização da Ficha
 
 Ator: Professor
 
 Pré-condições:
-- Ficha com pelo menos um treino.
+- Ficha com pelo menos um treino válido.
 
 Fluxo principal:
 1. Professor clica em "Finalizar ficha".
-2. Sistema valida se há treinos.
+2. Sistema valida:
+   - Existência de treinos.
+   - Existência de blocos.
+   - Existência de exercícios.
 3. Sistema gera QR Code público.
 4. Sistema gera versão PDF da ficha.
 5. Sistema marca ficha como ATIVA.
@@ -105,12 +119,25 @@ Pré-condições:
 
 Fluxo principal:
 1. Professor abre ficha ativa.
-2. Clica em editar exercício.
-3. Substitui exercício ou parâmetros.
-4. Sistema salva alteração.
+2. Professor seleciona o treino desejado.
+3. Professor seleciona o bloco de exercícios.
+4. Professor clica para editar um exercício do bloco.
+5. Professor pode:
+   - Substituir o exercício.
+   - Alterar máquina.
+   - Ajustar séries e repetições.
+   - Alterar ordem dentro do bloco.
+   - Mover o exercício para outro bloco.
+   - Alterar o tipo de execução do bloco.
+6. Sistema valida as alterações.
+7. Sistema salva a atualização.
 
 Pós-condições:
 - Ficha atualizada sem criar nova versão.
+
+Exceções:
+- Bloco vazio -> Sistema impede de salvar.
+- Dados inválidos -> Sistema impede de salvar.
 
 ## Fluxo 6 — Reavaliação do Aluno
 
