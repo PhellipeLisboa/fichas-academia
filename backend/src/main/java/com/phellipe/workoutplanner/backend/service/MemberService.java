@@ -53,6 +53,13 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional
+    public void activateMember(Long memberId) {
+        Member member = findById(memberId);
+        member.setActive(true);
+        memberRepository.save(member);
+    }
+
     private String generateUniquePublicCode() {
         String code;
         do {
