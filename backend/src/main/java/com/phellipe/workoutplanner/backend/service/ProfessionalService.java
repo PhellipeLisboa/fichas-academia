@@ -103,7 +103,7 @@ public class ProfessionalService {
         professionalRepository.save(professional);
     }
 
-    private Professional getProfessionalEntity(Long id) {
+    public Professional getProfessionalEntity(Long id) {
         return professionalRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Professional not found with id: " + id));
     }

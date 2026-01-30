@@ -70,7 +70,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    private Member getMemberEntity(Long id) {
+    public Member getMemberEntity(Long id) {
         return memberRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Member not found with id: " + id));
     }
