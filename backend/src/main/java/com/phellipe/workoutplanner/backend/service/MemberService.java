@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +53,7 @@ public class MemberService {
         return memberRepository.findByActiveTrue()
                 .stream()
                 .map(MemberSummaryResponse::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
