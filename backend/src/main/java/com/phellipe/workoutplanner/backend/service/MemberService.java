@@ -2,6 +2,9 @@ package com.phellipe.workoutplanner.backend.service;
 
 import com.phellipe.workoutplanner.backend.domain.entity.Member;
 import com.phellipe.workoutplanner.backend.domain.repository.MemberRepository;
+import com.phellipe.workoutplanner.backend.dto.member.CreateMemberRequest;
+import com.phellipe.workoutplanner.backend.dto.member.MemberResponse;
+import com.phellipe.workoutplanner.backend.dto.member.MemberSummaryResponse;
 import com.phellipe.workoutplanner.backend.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,47 +21,59 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member createMember(String name) {
+    public MemberResponse createMember(CreateMemberRequest request) {
 
-        if (name == null || name.isBlank()) {
+        if (request.getName() == null || request.getName().isBlank()) {
             throw new IllegalArgumentException("Member name cannot be empty");
         }
 
         Member member = new Member();
-        member.setName(name.trim());
+        member.setName(request.getName().trim());
         member.setPublicCode(generateUniquePublicCode());
         member.setActive(true);
 
-        return memberRepository.save(member);
+        return MemberResponse.from(memberRepository.save(member));
 
     }
 
-    public Member findByPublicCode(String publicCode) {
-        return memberRepository.findByPublicCode(publicCode).orElseThrow(
+    public MemberResponse findByPublicCode(String publicCode) {
+        Member member = memberRepository.findByPublicCode(publicCode).orElseThrow(
                 () -> new ResourceNotFoundException("Member not found with public code: " + publicCode));
+
+        return MemberResponse.from(member);
     }
 
-    public Member findById(Long id) {
-        return memberRepository.findById(id).orElseThrow(
+    public MemberResponse findById(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Member not found with id: " + id));
+
+        return MemberResponse.from(member);
     }
 
-    public List<Member> findAllActiveMembers() {
-        return memberRepository.findByActiveTrue();
+    public List<MemberSummaryResponse> findAllActiveMembers() {
+        return memberRepository.findByActiveTrue()
+                .stream()
+                .map(MemberSummaryResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public void inactivateMember(Long memberId) {
-        Member member = findById(memberId);
+    public void inactivateMember(Long Id) {
+        Member member = getMemberEntity(Id);
         member.setActive(false);
         memberRepository.save(member);
     }
 
     @Transactional
-    public void activateMember(Long memberId) {
-        Member member = findById(memberId);
+    public void activateMember(Long Id) {
+        Member member = getMemberEntity(Id);
         member.setActive(true);
         memberRepository.save(member);
+    }
+
+    private Member getMemberEntity(Long id) {
+        return memberRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Member not found with id: " + id));
     }
 
     private String generateUniquePublicCode() {
