@@ -10,4 +10,7 @@ import java.util.List;
 public interface MachineRepository extends JpaRepository<Machine, Long> {
 
     List<Machine> findByActiveTrue();
+
+    boolean existsByNumber(Integer number);
+
 }

@@ -6,6 +6,7 @@ import com.phellipe.workoutplanner.backend.dto.machine.CreateMachineRequest;
 import com.phellipe.workoutplanner.backend.dto.machine.MachineResponse;
 import com.phellipe.workoutplanner.backend.dto.machine.MachineSummaryResponse;
 import com.phellipe.workoutplanner.backend.dto.machine.UpdateMachineRequest;
+import com.phellipe.workoutplanner.backend.exception.BusinessException;
 import com.phellipe.workoutplanner.backend.exception.InvalidDataException;
 import com.phellipe.workoutplanner.backend.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,10 @@ public class MachineService {
     public MachineResponse createMachine(CreateMachineRequest request) {
         if (request.getName() == null || request.getName().isBlank()) {
             throw new InvalidDataException("Machine name cannot be empty");
+        }
+
+        if (machineRepository.existsByNumber(request.getNumber())) {
+            throw new BusinessException("Machine with number " + request.getNumber() + " already exists");
         }
 
         Machine machine = new Machine();
@@ -45,6 +50,9 @@ public class MachineService {
         }
 
         if (request.getNumber() != null) {
+            if (!machine.getNumber().equals(request.getNumber()) && machineRepository.existsByNumber(request.getNumber())) {
+                throw new BusinessException("Machine with number " + request.getNumber() + " already exists");
+            }
             machine.setNumber(request.getNumber());
         }
 
@@ -80,7 +88,7 @@ public class MachineService {
                 .toList();
     }
 
-    public MachineResponse FindById(Long id) {
+    public MachineResponse findById(Long id) {
         Machine machine = getMachineEntity(id);
         return MachineResponse.from(machine);
     }
