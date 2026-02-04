@@ -28,9 +28,19 @@ public class ExerciseService {
 
         Exercise exercise = new Exercise();
         exercise.setName(request.getName().trim().toUpperCase());
-        exercise.setDescription(request.getDescription().trim().toUpperCase());
-        exercise.setVideoUrl(request.getVideoUrl().trim());
-        exercise.setThumbnailUrl(request.getThumbnailUrl());
+
+        if (request.getDescription() != null && !request.getDescription().isBlank()) {
+            exercise.setDescription(request.getDescription().trim().toUpperCase());
+        }
+
+        if (request.getVideoUrl() != null && !request.getVideoUrl().isBlank()) {
+            exercise.setVideoUrl(request.getVideoUrl().trim());
+        }
+
+        if (request.getThumbnailUrl() != null && !request.getThumbnailUrl().isBlank()) {
+            exercise.setThumbnailUrl(request.getThumbnailUrl());
+        }
+
         exercise.setActive(true);
 
         Exercise savedExercise = exerciseRepository.save(exercise);
@@ -51,11 +61,11 @@ public class ExerciseService {
         }
 
         if (request.getVideoUrl() != null) {
-            exercise.setVideoUrl(exercise.getVideoUrl().trim());
+            exercise.setVideoUrl(request.getVideoUrl().trim());
         }
 
         if (request.getThumbnailUrl() != null) {
-            exercise.setThumbnailUrl(exercise.getThumbnailUrl().trim());
+            exercise.setThumbnailUrl(request.getThumbnailUrl().trim());
         }
 
         Exercise updatedExercise = exerciseRepository.save(exercise);
@@ -90,7 +100,7 @@ public class ExerciseService {
                 .toList();
     }
 
-    public ExerciseResponse FindById(Long id) {
+    public ExerciseResponse findById(Long id) {
         Exercise exercise = getExerciseEntity(id);
         return ExerciseResponse.from(exercise);
     }
