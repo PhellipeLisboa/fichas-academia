@@ -113,6 +113,11 @@ public class WorkoutPlanService {
         return createWorkoutPlan(request);
     }
 
+    public WorkoutPlanResponse findWorkoutPlanById(Long id) {
+        WorkoutPlan workoutPlan = getWorkoutPlanEntity(id);
+        return WorkoutPlanResponse.from(workoutPlan);
+    }
+
     public WorkoutPlanResponse findActivePlanByMemberId(Long memberId) {
         WorkoutPlan activePlan = workoutPlanRepository.findByMemberIdAndStatus(memberId, WorkoutPlanStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("No active workout plan for member"));
