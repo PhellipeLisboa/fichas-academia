@@ -76,6 +76,7 @@ public class MemberServiceTest {
         assertThatThrownBy(() -> memberService.createMember(invalidRequest))
                 .isInstanceOf(InvalidDataException.class);
 
+        verify(memberRepository, never()).save(any());
     }
 
     @Test
