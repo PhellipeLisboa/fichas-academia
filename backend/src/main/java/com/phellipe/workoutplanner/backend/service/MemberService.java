@@ -5,6 +5,7 @@ import com.phellipe.workoutplanner.backend.domain.repository.MemberRepository;
 import com.phellipe.workoutplanner.backend.dto.member.CreateMemberRequest;
 import com.phellipe.workoutplanner.backend.dto.member.MemberResponse;
 import com.phellipe.workoutplanner.backend.dto.member.MemberSummaryResponse;
+import com.phellipe.workoutplanner.backend.exception.InvalidDataException;
 import com.phellipe.workoutplanner.backend.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class MemberService {
     public MemberResponse createMember(CreateMemberRequest request) {
 
         if (request.getName() == null || request.getName().isBlank()) {
-            throw new IllegalArgumentException("Member name cannot be empty");
+            throw new InvalidDataException("Member name cannot be empty");
         }
 
         Member member = new Member();
