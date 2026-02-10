@@ -1,4 +1,4 @@
-package com.phellipe.workoutplanner.backend.dto.workoutplan;
+package com.phellipe.workoutplanner.backend.dto.workoutPlan;
 
 import com.phellipe.workoutplanner.backend.domain.entity.WorkoutPlan;
 import com.phellipe.workoutplanner.backend.domain.enumtype.Intensity;

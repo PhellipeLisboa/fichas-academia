@@ -1,9 +1,9 @@
 package com.phellipe.workoutplanner.backend.controller;
 
-import com.phellipe.workoutplanner.backend.dto.workoutplan.CreateWorkoutPlanRequest;
-import com.phellipe.workoutplanner.backend.dto.workoutplan.UpdateWorkoutPlanRequest;
-import com.phellipe.workoutplanner.backend.dto.workoutplan.WorkoutPlanResponse;
-import com.phellipe.workoutplanner.backend.dto.workoutplan.WorkoutPlanSummaryResponse;
+import com.phellipe.workoutplanner.backend.dto.workoutPlan.CreateWorkoutPlanRequest;
+import com.phellipe.workoutplanner.backend.dto.workoutPlan.UpdateWorkoutPlanRequest;
+import com.phellipe.workoutplanner.backend.dto.workoutPlan.WorkoutPlanResponse;
+import com.phellipe.workoutplanner.backend.dto.workoutPlan.WorkoutPlanSummaryResponse;
 import com.phellipe.workoutplanner.backend.service.WorkoutPlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
