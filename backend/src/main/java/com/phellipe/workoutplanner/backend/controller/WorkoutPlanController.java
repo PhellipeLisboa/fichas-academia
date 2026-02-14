@@ -4,10 +4,13 @@ import com.phellipe.workoutplanner.backend.dto.workoutPlan.CreateWorkoutPlanRequ
 import com.phellipe.workoutplanner.backend.dto.workoutPlan.UpdateWorkoutPlanRequest;
 import com.phellipe.workoutplanner.backend.dto.workoutPlan.WorkoutPlanResponse;
 import com.phellipe.workoutplanner.backend.dto.workoutPlan.WorkoutPlanSummaryResponse;
+import com.phellipe.workoutplanner.backend.service.PdfService;
 import com.phellipe.workoutplanner.backend.service.WorkoutPlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,7 @@ import java.util.List;
 public class WorkoutPlanController {
 
     private final WorkoutPlanService workoutPlanService;
+    private final PdfService pdfService;
 
     @PostMapping
     public ResponseEntity<WorkoutPlanResponse> createWorkoutPlan(@Valid @RequestBody CreateWorkoutPlanRequest request) {
@@ -72,6 +76,21 @@ public class WorkoutPlanController {
     public ResponseEntity<List<WorkoutPlanSummaryResponse>> getPlansByProfessional(@PathVariable Long professionalId) {
         List<WorkoutPlanSummaryResponse> response = workoutPlanService.findAllByProfessionalId(professionalId);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable Long id) {
+        byte[] pdfBytes = pdfService.generateWorkoutPlanPdf(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData(
+                "attachment", "ficha-treino-" + workoutPlanService.getWorkoutPlanEntity(id).getMember().getName()
+                        + "-" + workoutPlanService.getWorkoutPlanEntity(id).getSheetNumber() + ".pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
     }
 
 }
