@@ -61,3 +61,5 @@ build/
 
 ### Coverage
 coverage/
+
+src/main/resources/static/logo.*
