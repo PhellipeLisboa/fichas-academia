@@ -2,7 +2,10 @@ package com.phellipe.workoutplanner.backend.dto.workoutBlock;
 
 import com.phellipe.workoutplanner.backend.domain.entity.WorkoutBlock;
 import com.phellipe.workoutplanner.backend.domain.enumtype.ExecutionType;
+import com.phellipe.workoutplanner.backend.dto.blockItem.BlockItemResponse;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class WorkoutBlockResponse {
@@ -12,6 +15,7 @@ public class WorkoutBlockResponse {
     private ExecutionType executionType;
     private Integer position;
     private Integer itemCount;
+    private List<BlockItemResponse> items;
 
     public static WorkoutBlockResponse from(WorkoutBlock block) {
         WorkoutBlockResponse response = new WorkoutBlockResponse();
@@ -22,4 +26,19 @@ public class WorkoutBlockResponse {
         response.setItemCount(block.getItems() != null ? block.getItems().size() : 0);
         return response;
     }
+
+    public static WorkoutBlockResponse fromWithItems(WorkoutBlock block) {
+        WorkoutBlockResponse response = from(block);
+
+        if (block.getItems() != null) {
+            response.setItems(
+                    block.getItems().stream()
+                            .map(BlockItemResponse::from)
+                            .toList()
+            );
+        }
+
+        return response;
+    }
+
 }

@@ -124,10 +124,24 @@ public class WorkoutPlanService {
         return WorkoutPlanResponse.from(activePlan);
     }
 
+    @Transactional
     public WorkoutPlanResponse findActivePlanByPublicCode(String publicCode) {
         WorkoutPlan activePlan = workoutPlanRepository.findByMemberPublicCodeAndStatus(publicCode, WorkoutPlanStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("No active workout plan found for this code"));
-        return WorkoutPlanResponse.from(activePlan);
+
+        if (activePlan.getWorkouts() != null) {
+            activePlan.getWorkouts().forEach(workout -> {
+                if (workout.getBlocks() != null) {
+                    workout.getBlocks().forEach(block -> {
+                        if (block.getItems() != null) {
+                            block.getItems().size();
+                        }
+                    });
+                }
+            });
+        }
+
+        return WorkoutPlanResponse.fromWithWorkouts(activePlan);
     }
 
     public List<WorkoutPlanSummaryResponse> findAllByMemberId(Long memberId) {
@@ -149,6 +163,7 @@ public class WorkoutPlanService {
                 () -> new ResourceNotFoundException("Workout plan not found with id: " + id)
         );
     }
+
 
     private void validateWorkoutPlanStructure(WorkoutPlan workoutPlan) {
         if (workoutPlan.getWorkouts() == null || workoutPlan.getWorkouts().isEmpty()) {

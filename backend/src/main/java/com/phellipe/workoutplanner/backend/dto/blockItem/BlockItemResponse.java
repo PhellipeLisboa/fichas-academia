@@ -12,6 +12,7 @@ public class BlockItemResponse {
     private String exerciseName;
     private Long machineId;
     private String machineName;
+    private Integer machineNumber;
     private Integer sets;
     private Integer reps;
     private Integer position;
@@ -22,8 +23,13 @@ public class BlockItemResponse {
         response.setWorkoutBlockId(item.getWorkoutBlock().getId());
         response.setExerciseId(item.getExercise().getId());
         response.setExerciseName(item.getExercise().getName());
-        response.setMachineId(item.getMachine().getId());
-        response.setMachineName(item.getMachine().getName());
+
+        if (item.getMachine() != null) {
+            response.setMachineId(item.getMachine().getId());
+            response.setMachineName(item.getMachine().getName());
+            response.setMachineNumber(item.getMachine().getNumber());
+        }
+
         response.setSets(item.getSets());
         response.setReps(item.getReps());
         response.setPosition(item.getPosition());

@@ -3,9 +3,11 @@ package com.phellipe.workoutplanner.backend.dto.workoutPlan;
 import com.phellipe.workoutplanner.backend.domain.entity.WorkoutPlan;
 import com.phellipe.workoutplanner.backend.domain.enumtype.Intensity;
 import com.phellipe.workoutplanner.backend.domain.enumtype.WorkoutPlanStatus;
+import com.phellipe.workoutplanner.backend.dto.workout.WorkoutResponse;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class WorkoutPlanResponse {
@@ -23,6 +25,7 @@ public class WorkoutPlanResponse {
     private Intensity intensity;
     private WorkoutPlanStatus status;
     private String notes;
+    private List<WorkoutResponse> workouts;
 
     public static WorkoutPlanResponse from(WorkoutPlan plan) {
         WorkoutPlanResponse response = new WorkoutPlanResponse();
@@ -39,6 +42,24 @@ public class WorkoutPlanResponse {
         response.setIntensity(plan.getIntensity());
         response.setStatus(plan.getStatus());
         response.setNotes(plan.getNotes());
+        return response;
+    }
+
+    public static WorkoutPlanResponse fromWithWorkouts(WorkoutPlan plan) {
+        WorkoutPlanResponse response = from(plan);
+
+        if (plan.getWorkouts() != null && !plan.getWorkouts().isEmpty()) {
+
+            List<WorkoutResponse> workoutResponses = plan.getWorkouts().stream()
+                    .map(w -> {
+                        WorkoutResponse wr = WorkoutResponse.fromNested(w);
+                        return wr;
+                    })
+                    .toList();
+
+            response.setWorkouts(workoutResponses);
+        }
+
         return response;
     }
 
